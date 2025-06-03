@@ -1,9 +1,6 @@
 package com.aishwarya.SpringBoot_SplitWise_2.Services;
 
-import com.aishwarya.SpringBoot_SplitWise_2.Exceptions.InvalidGroupException;
-import com.aishwarya.SpringBoot_SplitWise_2.Exceptions.InvalidUserException;
-import com.aishwarya.SpringBoot_SplitWise_2.Exceptions.MemberAlreadyExistsException;
-import com.aishwarya.SpringBoot_SplitWise_2.Exceptions.UnAuthorizedAccessException;
+import com.aishwarya.SpringBoot_SplitWise_2.Exceptions.*;
 import com.aishwarya.SpringBoot_SplitWise_2.Models.Group;
 import com.aishwarya.SpringBoot_SplitWise_2.Models.GroupAdmin;
 import com.aishwarya.SpringBoot_SplitWise_2.Models.GroupMember;
@@ -16,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -89,5 +88,48 @@ public class GroupServiceImpl implements GroupService {
         groupMember.setUser(memberOptional.get());
         groupMember.setAddedAt(new Date());
         return groupMemberRepository.save(groupMember);
+    }
+
+    @Override
+    @Transactional
+    public void removeMember(long groupId, long adminId, long userId) throws
+            InvalidGroupException,
+            UnAuthorizedAccessException,
+            InvalidUserException,
+            GroupAdminSelfRemovalException {
+        Optional<Group> groupOptional = groupRepository.findById(groupId);
+        if (groupOptional.isEmpty()) throw new InvalidGroupException("Group Not Found!");
+        Optional<User> adminUserOptional = userRepository.findById(adminId);
+        if (adminUserOptional.isEmpty()) throw new InvalidUserException("User Not Found!");
+        Optional<User> memberOptional = userRepository.findById(userId);
+        if (memberOptional.isEmpty()) throw new InvalidUserException("User Not Found!");
+        Optional<GroupAdmin> groupAdminOptional = groupAdminRepository.findByGroupIdAndAdminId(groupId, adminId);
+        if (groupAdminOptional.isEmpty()) throw new UnAuthorizedAccessException("User Not Authorized!");
+        if (adminId == userId) throw new GroupAdminSelfRemovalException("Group Admin cannot remove himself!");
+        groupMemberRepository.deleteByUserId(userId);
+    }
+
+    @Override
+    public List<User> fetchAllMembers(long groupId, long userId) throws
+            InvalidGroupException,
+            UnAuthorizedAccessException,
+            InvalidUserException {
+        Optional<Group> groupOptional = groupRepository.findById(groupId);
+        if (groupOptional.isEmpty()) throw new InvalidGroupException("Group Not Found!");
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) throw new InvalidUserException("User Not Found!");
+        Optional<GroupAdmin> groupAdminOptional = groupAdminRepository.findByGroupIdAndAdminId(groupId, userId);
+        Optional<GroupMember> groupMemberOptional = groupMemberRepository.findByUserId(userId);
+        if (groupAdminOptional.isEmpty() && groupMemberOptional.isEmpty()) throw new UnAuthorizedAccessException("User Not Authorized!");
+        List<GroupMember> groupMemberList = groupMemberRepository.findAllByGroupId(groupId);
+        List<GroupAdmin> groupAdminList = groupAdminRepository.findAllByGroupId(groupId);
+        List<User> membersList = new ArrayList<>();
+        for (GroupAdmin groupAdmin : groupAdminList) {
+            membersList.add(groupAdmin.getAdmin());
+        }
+        for (GroupMember groupMember: groupMemberList) {
+            membersList.add(groupMember.getUser());
+        }
+        return membersList;
     }
 }
