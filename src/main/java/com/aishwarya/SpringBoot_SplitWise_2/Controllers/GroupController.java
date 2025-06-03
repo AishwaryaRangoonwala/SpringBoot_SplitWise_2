@@ -1,11 +1,9 @@
 package com.aishwarya.SpringBoot_SplitWise_2.Controllers;
 
-import com.aishwarya.SpringBoot_SplitWise_2.DTOs.CreateGroupRequestDto;
-import com.aishwarya.SpringBoot_SplitWise_2.DTOs.CreateGroupResponseDto;
-import com.aishwarya.SpringBoot_SplitWise_2.DTOs.DeleteGroupRequestDto;
-import com.aishwarya.SpringBoot_SplitWise_2.DTOs.DeleteGroupResponseDto;
+import com.aishwarya.SpringBoot_SplitWise_2.DTOs.*;
 import com.aishwarya.SpringBoot_SplitWise_2.Enums.ResponseStatus;
 import com.aishwarya.SpringBoot_SplitWise_2.Models.Group;
+import com.aishwarya.SpringBoot_SplitWise_2.Models.GroupMember;
 import com.aishwarya.SpringBoot_SplitWise_2.Services.GroupServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +40,22 @@ public class GroupController {
         }
         catch (Exception e) {
             System.out.println("Error in deleteGroupController: " + e.getMessage());
+            responseDTO.setResponseStatus(ResponseStatus.FAILURE);
+        }
+        return responseDTO;
+    }
+
+    public AddMemberResponseDto addMember(AddMemberRequestDto requestDto) {
+        AddMemberResponseDto responseDTO = new AddMemberResponseDto();
+        try {
+            GroupMember groupMember = groupService.addMember(requestDto.getGroupId(),
+                                   requestDto.getAdminId(),
+                                   requestDto.getMemberId());
+            responseDTO.setGroupMember(groupMember);
+            responseDTO.setResponseStatus(ResponseStatus.SUCCESS);
+        }
+        catch (Exception e) {
+            System.out.println("Error in addMemberToGroupController: " + e.getMessage());
             responseDTO.setResponseStatus(ResponseStatus.FAILURE);
         }
         return responseDTO;

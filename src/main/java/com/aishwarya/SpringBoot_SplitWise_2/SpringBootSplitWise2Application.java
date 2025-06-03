@@ -1,7 +1,6 @@
 package com.aishwarya.SpringBoot_SplitWise_2;
 
-import com.aishwarya.SpringBoot_SplitWise_2.Commands.CommandExecutor;
-import com.aishwarya.SpringBoot_SplitWise_2.Commands.CreateUserCommand;
+import com.aishwarya.SpringBoot_SplitWise_2.Commands.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +15,12 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 	private CommandExecutor commandExecutor;
 	@Autowired
 	private CreateUserCommand createUserCommand;
+	@Autowired
+	private CreateGroupCommand createGroupCommand;
+	@Autowired
+	private AddMemberToGroupCommand addMemberToGroupCommand;
+	@Autowired
+	private DeleteGroupCommand deleteGroupCommand;
 
 	public static void main(String[] args) {
 
@@ -27,13 +32,17 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 		System.out.println("********* SPLITWISE APPLICATION *********");
 		Scanner sc = new Scanner(System.in);
 		commandExecutor.register(createUserCommand);
+		commandExecutor.register(createGroupCommand);
+		commandExecutor.register(addMemberToGroupCommand);
+		commandExecutor.register(deleteGroupCommand);
 
 		String inputCommand = "";
 		while (!inputCommand.equalsIgnoreCase("quit")) {
 			System.out.println("********** COMMAND DESCRIPTION **********");
-			System.out.println("1. createuser name phonenumber");
-			System.out.println("2. TBD");
-			System.out.println("3. TBD");
+			System.out.println("1. createUser name phoneNumber");
+			System.out.println("2. createGroup name description creatorUserid");
+			System.out.println("3. addMemberToGroup groupId adminId memberId");
+			System.out.println("4. deleteGroup groupId userId");
 			System.out.println("4. quit");
 			System.out.print("Your command: ");
 			inputCommand = sc.nextLine();
