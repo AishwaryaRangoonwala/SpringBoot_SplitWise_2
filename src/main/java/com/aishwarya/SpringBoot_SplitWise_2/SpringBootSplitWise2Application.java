@@ -51,7 +51,9 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 			System.out.println("4. deleteGroup groupId userId");
 			System.out.println("5. removeMemberFromGroup groupId adminId memberId");
 			System.out.println("6. fetchMembersOfAGroup groupId memberId");
-			System.out.println("7. quit");
+			System.out.println("7. settleUpGroup groupId");
+			System.out.println("8. settleUpUser userId");
+			System.out.println("9. quit");
 			System.out.print("Your command: ");
 			inputCommand = sc.nextLine();
 			commandExecutor.execute(inputCommand);

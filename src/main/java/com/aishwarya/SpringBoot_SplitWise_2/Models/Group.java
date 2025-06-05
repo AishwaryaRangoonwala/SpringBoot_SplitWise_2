@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity (name = "s_group")
@@ -11,6 +12,9 @@ public class Group extends BaseModel {
     private String name;
     private String description;
     private Date createdAt;
+    // new attributes for settle up flow added below
+    private List<User> users;
+    private List<User> admins;
 
     public String getName() {
         return name;
