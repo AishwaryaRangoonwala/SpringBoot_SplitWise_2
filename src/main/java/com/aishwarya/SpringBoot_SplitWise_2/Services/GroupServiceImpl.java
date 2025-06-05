@@ -101,8 +101,8 @@ public class GroupServiceImpl implements GroupService {
         if (groupOptional.isEmpty()) throw new InvalidGroupException("Group Not Found!");
         Optional<User> adminUserOptional = userRepository.findById(adminId);
         if (adminUserOptional.isEmpty()) throw new InvalidUserException("User Not Found!");
-        Optional<User> memberOptional = userRepository.findById(userId);
-        if (memberOptional.isEmpty()) throw new InvalidUserException("User Not Found!");
+        Optional<GroupMember> memberOptional = groupMemberRepository.findById(userId);
+        if (memberOptional.isEmpty()) throw new InvalidUserException("Member Not Found in Group!");
         Optional<GroupAdmin> groupAdminOptional = groupAdminRepository.findByGroupIdAndAdminId(groupId, adminId);
         if (groupAdminOptional.isEmpty()) throw new UnAuthorizedAccessException("User Not Authorized!");
         if (adminId == userId) throw new GroupAdminSelfRemovalException("Group Admin cannot remove himself!");
