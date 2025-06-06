@@ -32,7 +32,7 @@ public class AddAdminToGroupCommandV2 implements Command {
             AddAdminResponseDtoV2 responseDTO = groupController.addAdminToGroupV2(requestDTO);
             System.out.println(responseDTO.getResponseStatus());
         } catch (Exception e) {
-            System.out.println("Error in execute command: " + e.getMessage());
+            System.out.println("Error in command: " + e.getMessage());
         }
     }
 }
