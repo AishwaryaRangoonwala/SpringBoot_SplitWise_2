@@ -97,4 +97,31 @@ public class GroupController {
         }
         return responseDTO;
     }
+
+    public AddMemberResponseDtoV2 addMemberToGroupV2(AddMemberRequestDtoV2 requestDTO) {
+        AddMemberResponseDtoV2 responseDTO = new AddMemberResponseDtoV2();
+        try {
+            groupService.addMemberToGroupV2(requestDTO.getGroupId(), requestDTO.getMemberId());
+            responseDTO.setResponseStatus(ResponseStatus.SUCCESS);
+        }
+        catch (Exception e) {
+            System.out.println("Error in addMemberToGroupV2Controller: " + e.getMessage());
+            responseDTO.setResponseStatus(ResponseStatus.FAILURE);
+        }
+        return responseDTO;
+    }
+
+    public AddAdminResponseDtoV2 addAdminToGroupV2(AddAdminRequestDtoV2 requestDTO) {
+        AddAdminResponseDtoV2 responseDTO = new AddAdminResponseDtoV2();
+        try {
+            groupService.addAdminToGroupV2(requestDTO.getGroupId(), requestDTO.getAdminId());
+            responseDTO.setResponseStatus(ResponseStatus.SUCCESS);
+        }
+        catch (Exception e) {
+            System.out.println("Error in addAdminToGroupV2Controller: " + e.getMessage());
+            responseDTO.setResponseStatus(ResponseStatus.FAILURE);
+        }
+        return responseDTO;
+    }
+
 }

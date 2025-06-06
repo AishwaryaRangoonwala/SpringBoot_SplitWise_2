@@ -1,6 +1,6 @@
 package com.aishwarya.SpringBoot_SplitWise_2.Models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,8 +12,10 @@ public class Group extends BaseModel {
     private String name;
     private String description;
     private Date createdAt;
-    // new attributes for settle up flow added below
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> users;
+    // The below fields is incorrect as admins are stored in GroupAdmin model
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> admins;
 
     public String getName() {
@@ -38,5 +40,21 @@ public class Group extends BaseModel {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<User> getAdmins() {
+        return admins;
+    }
+
+    public void setAdmins(List<User> admins) {
+        this.admins = admins;
     }
 }

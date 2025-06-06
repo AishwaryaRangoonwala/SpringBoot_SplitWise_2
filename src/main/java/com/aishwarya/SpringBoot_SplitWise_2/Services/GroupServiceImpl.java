@@ -132,4 +132,26 @@ public class GroupServiceImpl implements GroupService {
         }
         return membersList;
     }
+
+    public void addMemberToGroupV2(Long groupId, Long userId) throws InvalidGroupException, InvalidUserException {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new InvalidGroupException("Group Not Found!"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new InvalidUserException("User Not Found!"));
+        List<User> userList = group.getUsers();
+        if (!userList.contains(user)){
+            userList.add(user);
+            group.setUsers(userList);
+            groupRepository.save(group);
+        }
+    }
+
+    public void addAdminToGroupV2(Long groupId, Long adminId) throws InvalidGroupException, InvalidUserException {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new InvalidGroupException("Group Not Found!"));
+        User user = userRepository.findById(adminId).orElseThrow(() -> new InvalidUserException("User Not Found!"));
+        List<User> adminList = group.getAdmins();
+        if (!adminList.contains(user)) {
+            adminList.add(user);
+            group.setAdmins(adminList);
+            groupRepository.save(group);
+        }
+    }
 }

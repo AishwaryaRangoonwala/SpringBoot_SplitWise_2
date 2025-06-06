@@ -25,6 +25,10 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 	private RemoveMemberFromGroupCommand removeMemberFromGroupCommand;
 	@Autowired
 	private FetchMembersCommand fetchMembersCommand;
+	@Autowired
+	private AddMemberToGroupCommandV2 addMemberToGroupCommandV2;
+	@Autowired
+	private AddAdminToGroupCommandV2 addAdminToGroupCommandV2;
 
 	public static void main(String[] args) {
 
@@ -41,6 +45,8 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 		commandExecutor.register(deleteGroupCommand);
 		commandExecutor.register(removeMemberFromGroupCommand);
 		commandExecutor.register(fetchMembersCommand);
+		commandExecutor.register(addMemberToGroupCommandV2);
+		commandExecutor.register(addAdminToGroupCommandV2);
 
 		String inputCommand = "";
 		while (!inputCommand.equalsIgnoreCase("quit")) {
@@ -53,7 +59,10 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 			System.out.println("6. fetchMembersOfAGroup groupId memberId");
 			System.out.println("7. settleUpGroup groupId");
 			System.out.println("8. settleUpUser userId");
-			System.out.println("9. quit");
+			System.out.println("9. addMemberToGroupV2 groupId memberId");
+			System.out.println("9. addAdminToGroupV2 groupId adminId");
+			System.out.println("10. addExpense expenseAmount groupId expenseUser1_amount expenseUser1_type expenseUser2_amount expenseUser2_type ... expenseUserN_amount expenseUserN_type");
+			System.out.println("11. quit");
 			System.out.print("Your command: ");
 			inputCommand = sc.nextLine();
 			commandExecutor.execute(inputCommand);

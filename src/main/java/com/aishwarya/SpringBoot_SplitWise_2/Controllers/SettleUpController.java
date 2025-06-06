@@ -2,7 +2,7 @@ package com.aishwarya.SpringBoot_SplitWise_2.Controllers;
 
 import com.aishwarya.SpringBoot_SplitWise_2.Enums.ResponseStatus;
 import com.aishwarya.SpringBoot_SplitWise_2.Models.Transaction;
-import com.aishwarya.SpringBoot_SplitWise_2.Services.SettleUpService;
+import com.aishwarya.SpringBoot_SplitWise_2.Services.SettleUpServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.aishwarya.SpringBoot_SplitWise_2.DTOs.SettleGroupRequestDto;
@@ -16,7 +16,7 @@ import java.util.List;
 public class SettleUpController {
 
     @Autowired
-    private SettleUpService settleUpService;
+    private SettleUpServiceImpl settleUpService;
 
     public SettleGroupResponseDto settleGroup(SettleGroupRequestDto dto){
         SettleGroupResponseDto responseDTO = new SettleGroupResponseDto();
