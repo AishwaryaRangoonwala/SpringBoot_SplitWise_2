@@ -31,6 +31,10 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 	private AddAdminToGroupCommandV2 addAdminToGroupCommandV2;
 	@Autowired
 	private AddExpenseCommand addExpenseCommand;
+	@Autowired
+	private SettleUpGroupCommand settleUpGroupCommand;
+	@Autowired
+	private SettleUpUserCommand settleUpUserCommand;
 
 	public static void main(String[] args) {
 
@@ -50,6 +54,8 @@ public class SpringBootSplitWise2Application implements CommandLineRunner {
 		commandExecutor.register(addMemberToGroupCommandV2);
 		commandExecutor.register(addAdminToGroupCommandV2);
 		commandExecutor.register(addExpenseCommand);
+		commandExecutor.register(settleUpGroupCommand);
+		commandExecutor.register(settleUpUserCommand);
 
 		String inputCommand = "";
 		while (!inputCommand.equalsIgnoreCase("quit")) {
