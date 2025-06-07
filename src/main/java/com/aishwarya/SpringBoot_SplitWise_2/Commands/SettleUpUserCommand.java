@@ -4,6 +4,7 @@ import com.aishwarya.SpringBoot_SplitWise_2.Controllers.SettleUpController;
 import com.aishwarya.SpringBoot_SplitWise_2.DTOs.SettleGroupResponseDto;
 import com.aishwarya.SpringBoot_SplitWise_2.DTOs.SettleUserRequestDto;
 import com.aishwarya.SpringBoot_SplitWise_2.DTOs.SettleUserResponseDto;
+import com.aishwarya.SpringBoot_SplitWise_2.Models.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,10 @@ public class SettleUpUserCommand implements Command {
             SettleUserRequestDto requestDTO = new SettleUserRequestDto();
             requestDTO.setUserId(Long.parseLong(commandSubStr.get(1)));
             SettleUserResponseDto responseDTO = settleUpController.settleUser(requestDTO);
+            List<Transaction> transactionList = responseDTO.getTransactions();
+            for (Transaction transaction : transactionList) {
+                System.out.println("Pay " + transaction.getAmount() + " from " + transaction.getPaidFrom().getName() + " to " + transaction.getPaidTo().getName());
+            }
             System.out.println(responseDTO.getResponseStatus());
         }
         catch (Exception e) {
